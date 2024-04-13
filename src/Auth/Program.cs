@@ -27,7 +27,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Register ASP.NET Core Identity services
 builder.Services
-    .AddDefaultIdentity<AuthUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddDefaultIdentity<AuthUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddEmail(builder.Configuration);
 builder.Services.AddRazorPages();
@@ -112,14 +112,15 @@ builder.Services.AddOpenIddict()
 builder.Services.AddHostedService<DatabaseSeedWorker>();
 
 builder.Services.AddAuthentication()
-    .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
-    {
-        // We are leaving the default auth scheme
-        //options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-
-        options.ClientId = builder.Configuration["Providers:Google:ClientId"]!;
-        options.ClientSecret = builder.Configuration["Providers:Google:ClientSecret"]!;
-    });
+    // .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+    // {
+    //     // We are leaving the default auth scheme
+    //     //options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+    //
+    //     options.ClientId = builder.Configuration["Providers:Google:ClientId"]!;
+    //     options.ClientSecret = builder.Configuration["Providers:Google:ClientSecret"]!;
+    // })
+    ;
 
 // CORS policy to allow SwaggerUI and React clients
 builder.Services.AddCors(

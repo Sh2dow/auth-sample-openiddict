@@ -19,7 +19,7 @@ services:
   - name: ACCEPT_EULA
     value: Y
   - name: SA_PASSWORD
-    value: AuthPa$$1 # Note that $ needs to be escaped as $$ - so pass is actually AuthPa$1
+    value: 123 # AuthPa$$1 Note that $ needs to be escaped as $$ - so pass is actually 123
   - name: MSSQL_PID
     value: Developer
 
