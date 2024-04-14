@@ -5,7 +5,8 @@ import authService from './AuthorizeService';
 import { ApplicationPaths } from './ApiAuthorizationConstants';
 
 export class LoginMenu extends Component {
-  constructor(props) {
+  _subscription: any;
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -27,11 +28,12 @@ export class LoginMenu extends Component {
     const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()])
     this.setState({
       isAuthenticated,
-      userName: user && user.name
+      userName: user && user.profile.name
     });
   }
 
   render() {
+    // @ts-expect-error TS(2339): Property 'isAuthenticated' does not exist on type ... Remove this comment to see the full error message
     const { isAuthenticated, userName } = this.state;
     if (!isAuthenticated) {
       const registerPath = `${ApplicationPaths.Register}`;
@@ -45,7 +47,7 @@ export class LoginMenu extends Component {
     }
   }
 
-  authenticatedView(userName, profilePath, logoutPath, logoutState) {
+  authenticatedView(userName: any, profilePath: any, logoutPath: any, logoutState: any) {
     return (<Fragment>
       <NavItem>
         <NavLink tag={Link} className="text-dark" to={profilePath}>Hello {userName}</NavLink>
@@ -56,7 +58,7 @@ export class LoginMenu extends Component {
     </Fragment>);
   }
 
-  anonymousView(registerPath, loginPath) {
+  anonymousView(registerPath: any, loginPath: any) {
     return (<Fragment>
       <NavItem>
         <NavLink tag={Link} className="text-dark" to={registerPath}>Register</NavLink>

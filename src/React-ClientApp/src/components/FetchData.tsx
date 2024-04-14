@@ -4,7 +4,7 @@ import authService from './api-authorization/AuthorizeService'
 export class FetchData extends Component {
   static displayName = FetchData.name;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = { forecasts: [], loading: true };
   }
@@ -13,7 +13,7 @@ export class FetchData extends Component {
     this.populateWeatherData();
   }
 
-  static renderForecastsTable(forecasts) {
+  static renderForecastsTable(forecasts: any) {
     return (
       <table className="table table-striped" aria-labelledby="tableLabel">
         <thead>
@@ -25,13 +25,12 @@ export class FetchData extends Component {
           </tr>
         </thead>
         <tbody>
-          {forecasts.map(forecast =>
-            <tr key={forecast.date}>
-              <td>{forecast.date}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
-              <td>{forecast.summary}</td>
-            </tr>
+          {forecasts.map((forecast: any) => <tr key={forecast.date}>
+            <td>{forecast.date}</td>
+            <td>{forecast.temperatureC}</td>
+            <td>{forecast.temperatureF}</td>
+            <td>{forecast.summary}</td>
+          </tr>
           )}
         </tbody>
       </table>
@@ -39,8 +38,10 @@ export class FetchData extends Component {
   }
 
   render() {
+    // @ts-expect-error TS(2339): Property 'loading' does not exist on type 'Readonl... Remove this comment to see the full error message
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
+      // @ts-expect-error TS(2339): Property 'forecasts' does not exist on type 'Reado... Remove this comment to see the full error message
       : FetchData.renderForecastsTable(this.state.forecasts);
 
     return (

@@ -8,7 +8,7 @@ import { QueryParameterNames, LogoutActions, ApplicationPaths } from './ApiAutho
 // This is the starting point for the logout process, which is usually initiated when a
 // user clicks on the logout button on the LoginMenu component.
 export class Logout extends Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -19,10 +19,12 @@ export class Logout extends Component {
   }
 
   componentDidMount() {
+    // @ts-expect-error TS(2339): Property 'action' does not exist on type 'Readonly... Remove this comment to see the full error message
     const action = this.props.action;
     switch (action) {
       case LogoutActions.Logout:
         if (!!window.history.state.usr.local) {
+          // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
           this.logout(this.getReturnUrl());
         } else {
           // This prevents regular links to <app>/authentication/logout from triggering a logout
@@ -43,6 +45,7 @@ export class Logout extends Component {
   }
 
   render() {
+    // @ts-expect-error TS(2339): Property 'isReady' does not exist on type 'Readonl... Remove this comment to see the full error message
     const { isReady, message } = this.state;
     if (!isReady) {
       return <div></div>
@@ -50,6 +53,7 @@ export class Logout extends Component {
     if (!!message) {
       return (<div>{message}</div>);
     } else {
+      // @ts-expect-error TS(2339): Property 'action' does not exist on type 'Readonly... Remove this comment to see the full error message
       const action = this.props.action;
       switch (action) {
         case LogoutActions.Logout:
@@ -64,7 +68,7 @@ export class Logout extends Component {
     }
   }
 
-  async logout(returnUrl) {
+  async logout(returnUrl: any) {
     const state = { returnUrl };
     const isauthenticated = await authService.isAuthenticated();
     if (isauthenticated) {
@@ -76,6 +80,7 @@ export class Logout extends Component {
           await this.navigateToReturnUrl(returnUrl);
           break;
         case AuthenticationResultStatus.Fail:
+          // @ts-expect-error TS(2339): Property 'message' does not exist on type '{ statu... Remove this comment to see the full error message
           this.setState({ message: result.message });
           break;
         default:
@@ -89,28 +94,31 @@ export class Logout extends Component {
   async processLogoutCallback() {
     const url = window.location.href;
     const result = await authService.completeSignOut(url);
+
     switch (result.status) {
       case AuthenticationResultStatus.Redirect:
-        // There should not be any redirects as the only time completeAuthentication finishes
-        // is when we are doing a redirect sign in flow.
         throw new Error('Should not redirect.');
       case AuthenticationResultStatus.Success:
         await this.navigateToReturnUrl(this.getReturnUrl(result.state));
         break;
       case AuthenticationResultStatus.Fail:
-        this.setState({ message: result.message });
+        // Add a check to verify if result.message exists
+        if ('message' in result && typeof result.message === 'string') {
+          this.setState({ message: result.message });
+        }
         break;
       default:
         throw new Error("Invalid authentication result status.");
     }
   }
 
+
   async populateAuthenticationState() {
     const authenticated = await authService.isAuthenticated();
     this.setState({ isReady: true, authenticated });
   }
 
-  getReturnUrl(state) {
+  getReturnUrl(state: any) {
     const params = new URLSearchParams(window.location.search);
     const fromQuery = params.get(QueryParameterNames.ReturnUrl);
     if (fromQuery && !fromQuery.startsWith(`${window.location.origin}/`)) {
@@ -122,7 +130,7 @@ export class Logout extends Component {
       `${window.location.origin}${ApplicationPaths.LoggedOut}`;
   }
 
-  navigateToReturnUrl(returnUrl) {
+  navigateToReturnUrl(returnUrl: any) {
     return window.location.replace(returnUrl);
   }
 }
