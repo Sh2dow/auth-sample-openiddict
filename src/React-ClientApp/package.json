@@ -1,5 +1,5 @@
 {
-  "name": "samples.weatherapi.mvcclient",
+  "name": "react-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -44,7 +44,6 @@
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.34.1",
     "nan": "^2.19.0",
-    "react-oidc-context": "^3.0.0",
     "ts-migrate": "^0.1.35",
     "typescript": "^5.4.5"
   },

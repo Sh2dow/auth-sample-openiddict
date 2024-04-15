@@ -22,28 +22,26 @@ export default class App extends Component<{}, AppState> {
       <Layout>
         <Routes>
           {AppRoutes.map((route, index) => {
-            const { path, element, requireAuth } = route;
-
-            if (requireAuth && path) {
-              // Render AuthorizeRoute for authenticated routes
+            // Check if the route requires authorization and has a valid path
+            if (route.requireAuth && route.path) {
               return (
                 <Route
                   key={index}
-                  path={path}
-                  element={<AuthorizeRoute key={index} path={path} element={element} />}
+                  path={route.path}
+                  element={<AuthorizeRoute key={index} path={route.path} element={route.element} />}
                 />
               );
-            } else if (path) {
-              // Render regular Route for other routes
+            } else if (route.path) {
+              // Render regular Route for other routes with a valid path
               return (
                 <Route
                   key={index}
-                  path={path}
-                  element={element}
+                  path={route.path}
+                  element={route.element}
                 />
               );
             } else {
-              // Handle the case where the path is missing
+              // Handle the case where the path is undefined
               console.error(`Route at index ${index} is missing a 'path' property.`);
               return null;
             }

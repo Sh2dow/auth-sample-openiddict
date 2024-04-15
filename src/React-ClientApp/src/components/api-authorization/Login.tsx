@@ -8,22 +8,42 @@ import { LoginActions, QueryParameterNames, ApplicationPaths } from './ApiAuthor
 // This is the starting point for the login process. Any component that needs to authenticate
 // a user can simply perform a redirect to this component with a returnUrl query parameter and
 // let the component perform the login and return back to the return url.
-export class Login extends Component {
-  constructor(props: any) {
+interface LoginProps {
+  action: string; // or the appropriate type for your action prop
+  // other props can be defined here as needed
+}
+
+interface LoginState {
+  isAuthenticated: boolean;
+  userName: string;
+  message?: string; // Optional property for any messages/errors
+  // Add more state properties as needed
+}
+
+
+export class Login extends Component<LoginProps, LoginState> {
+  // Initialize the state in the constructor or as a class property
+  constructor(props: LoginProps) {
     super(props);
 
     this.state = {
-      message: undefined
+      isAuthenticated: false,
+      userName: '',
+      message: '',
+      // Initialize other state properties if needed
     };
   }
 
   componentDidMount() {
-    // @ts-expect-error TS(2339): Property 'action' does not exist on type 'Readonly... Remove this comment to see the full error message
     const action = this.props.action;
+
+    // Define the state argument for login
+    // Assuming you want to pass the current state as an argument
+
     switch (action) {
       case LoginActions.Login:
-        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
-        this.login(this.getReturnUrl());
+        // Pass the state argument to the login method
+        this.login(this.getReturnUrl(this.state));
         break;
       case LoginActions.LoginCallback:
         this.processLoginCallback();
@@ -31,7 +51,7 @@ export class Login extends Component {
       case LoginActions.LoginFailed:
         const params = new URLSearchParams(window.location.search);
         const error = params.get(QueryParameterNames.Message);
-        this.setState({ message: error });
+        this.setState({ message: QueryParameterNames.Message });
         break;
       case LoginActions.Profile:
         this.redirectToProfile();
@@ -44,10 +64,11 @@ export class Login extends Component {
     }
   }
 
+
   render() {
-    // @ts-expect-error TS(2339): Property 'action' does not exist on type 'Readonly... Remove this comment to see the full error message
+    // ts-expect-error TS(2339): Property 'action' does not exist on type 'Readonly... Remove this comment to see the full error message
     const action = this.props.action;
-    // @ts-expect-error TS(2339): Property 'message' does not exist on type 'Readonl... Remove this comment to see the full error message
+    // ts-expect-error TS(2339): Property 'message' does not exist on type 'Readonl... Remove this comment to see the full error message
     const { message } = this.state;
 
     if (!!message) {

@@ -4,11 +4,15 @@ import { Link } from 'react-router-dom';
 import authService from './AuthorizeService';
 import { ApplicationPaths } from './ApiAuthorizationConstants';
 
-export class LoginMenu extends Component {
-  _subscription: any;
-  constructor(props: any) {
-    super(props);
+interface AuthState {
+  isAuthenticated: boolean;
+  userName: string | null; // Consider making userName optional in case the user is not logged in
+}
 
+export class LoginMenu extends Component<{}, AuthState> {
+  _subscription: any;
+  constructor(props: {}) {
+    super(props);
     this.state = {
       isAuthenticated: false,
       userName: null
@@ -28,12 +32,12 @@ export class LoginMenu extends Component {
     const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()])
     this.setState({
       isAuthenticated,
-      userName: user && user.profile.name
+      userName: user?.profile.name ?? null
     });
   }
 
   render() {
-    // @ts-expect-error TS(2339): Property 'isAuthenticated' does not exist on type ... Remove this comment to see the full error message
+    // ts-expect-error TS(2339): Property 'isAuthenticated' does not exist on type ... Remove this comment to see the full error message
     const { isAuthenticated, userName } = this.state;
     if (!isAuthenticated) {
       const registerPath = `${ApplicationPaths.Register}`;

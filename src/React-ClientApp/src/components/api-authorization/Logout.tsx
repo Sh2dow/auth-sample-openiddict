@@ -7,19 +7,29 @@ import { QueryParameterNames, LogoutActions, ApplicationPaths } from './ApiAutho
 // The main responsibility of this component is to handle the user's logout process.
 // This is the starting point for the logout process, which is usually initiated when a
 // user clicks on the logout button on the LoginMenu component.
-export class Logout extends Component {
-  constructor(props: any) {
+interface LogoutProps {
+  action: string; // or the expected type of the action prop
+}
+
+interface LogoutState {
+  isReady: boolean; // Define the isReady property with the correct type
+  message: string | null; // Define the message property with the correct type
+  authenticated: boolean;
+}
+
+export class Logout extends Component<LogoutProps, LogoutState> {
+  constructor(props: LogoutProps) {
     super(props);
 
     this.state = {
-      message: undefined,
       isReady: false,
+      message: null,
       authenticated: false
     };
   }
 
   componentDidMount() {
-    // @ts-expect-error TS(2339): Property 'action' does not exist on type 'Readonly... Remove this comment to see the full error message
+    // ts-expect-error TS(2339): Property 'action' does not exist on type 'Readonly... Remove this comment to see the full error message
     const action = this.props.action;
     switch (action) {
       case LogoutActions.Logout:
@@ -45,7 +55,7 @@ export class Logout extends Component {
   }
 
   render() {
-    // @ts-expect-error TS(2339): Property 'isReady' does not exist on type 'Readonl... Remove this comment to see the full error message
+    // ts-expect-error TS(2339): Property 'isReady' does not exist on type 'Readonl... Remove this comment to see the full error message
     const { isReady, message } = this.state;
     if (!isReady) {
       return <div></div>
@@ -53,7 +63,7 @@ export class Logout extends Component {
     if (!!message) {
       return (<div>{message}</div>);
     } else {
-      // @ts-expect-error TS(2339): Property 'action' does not exist on type 'Readonly... Remove this comment to see the full error message
+      // ts-expect-error TS(2339): Property 'action' does not exist on type 'Readonly... Remove this comment to see the full error message
       const action = this.props.action;
       switch (action) {
         case LogoutActions.Logout:

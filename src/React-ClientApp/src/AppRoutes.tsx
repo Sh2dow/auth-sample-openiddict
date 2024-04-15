@@ -16,6 +16,7 @@ interface RouteObject {
 const AppRoutes: RouteObject[] = [
   {
     index: true,
+    path: '/',
     element: <Home />,
   },
   {

@@ -19,11 +19,11 @@ window.fetch = () => {
       ok: true,
       json: () => Promise.resolve({
         "authority": "https://localhost:7182",
-        "client_id": "Samples.WeatherApi.MvcClient",
+        "client_id": "react-client",
         "redirect_uri": "https://localhost:7182/authentication/login-callback",
         "post_logout_redirect_uri": "https://localhost:7182/authentication/logout-callback",
         "response_type": "id_token token",
-        "scope": "Samples.WeatherApi.MvcClientAPI openid profile"
+        "scope": "API openid profile"
      })
     });
 };

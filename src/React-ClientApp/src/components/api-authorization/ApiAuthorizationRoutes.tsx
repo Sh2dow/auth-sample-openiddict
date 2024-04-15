@@ -39,12 +39,12 @@ const ApiAuthorizationRoutes = [
 ];
 
 function loginAction(name: any){
-  // @ts-expect-error TS(2322): Type '{ action: any; }' is not assignable to type ... Remove this comment to see the full error message
+  // ts-expect-error TS(2322): Type '{ action: any; }' is not assignable to type ... Remove this comment to see the full error message
   return <Login action={name}></Login>;
 }
 
 function logoutAction(name: any) {
-  // @ts-expect-error TS(2322): Type '{ action: any; }' is not assignable to type ... Remove this comment to see the full error message
+  // ts-expect-error TS(2322): Type '{ action: any; }' is not assignable to type ... Remove this comment to see the full error message
   return <Logout action={name}></Logout>;
 }
 

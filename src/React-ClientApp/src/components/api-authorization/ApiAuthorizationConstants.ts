@@ -1,4 +1,4 @@
-export const ApplicationName = 'Samples.WeatherApi.MvcClient';
+export const ApplicationName = 'react-client';
 
 export const QueryParameterNames = {
   ReturnUrl: 'returnUrl',

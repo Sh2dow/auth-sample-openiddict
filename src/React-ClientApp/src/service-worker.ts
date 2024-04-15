@@ -61,6 +61,10 @@ registerRoute(
   })
 );
 
+
+interface ExtendedServiceWorkerGlobalScope extends ServiceWorkerGlobalScope {
+  skipWaiting: () => void;
+}
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
 self.addEventListener('message', (event) => {
